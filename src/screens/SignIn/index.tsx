@@ -20,19 +20,24 @@ export function SignIn() {
   const navigation = useNavigation();
 
   async function handleSignIn() {
-    const CLIENT_ID = "tccmorigi";
-    const REDIRECT_URI = "tccmorigi://tccmorigi.setic_oauth.ufsc.br";
-    const RESPONSE_TYPE = "code";
-    const STATE = "E3ZYKC1T6H2yP4z";
+    // const CLIENT_ID = "tccmorigi";
+    // const REDIRECT_URI = "tccmorigi://tccmorigi.setic_oauth.ufsc.br";
+    // const RESPONSE_TYPE = "code";
+    // const STATE = "E3ZYKC1T6H2yP4z";
 
-    const authUrl = `https://sistemas.ufsc.br/oauth2.0/authorize?response_type=${RESPONSE_TYPE}&client_id=${CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
+    // const authUrl = `https://sistemas.ufsc.br/oauth2.0/authorize?response_type=${RESPONSE_TYPE}&client_id=${CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
 
-    const response = await AuthSession.startAsync({ authUrl, returnUrl: "exp://10.0.0.109:19000" });
+    // const response = await AuthSession.startAsync({ authUrl });
+
+    const response = {
+      type: 'success',
+      params: { access_token: 'AT-219-cb-IlmTb31REgOT3xJHnxh0gv920D-I1' }
+    }
 
     console.log("RESPONSE: ", response);
 
     if (response.type = "success") {
-      navigation.navigate('Profile');
+      navigation.navigate('Profile', { token: response.params.access_token });
     }
 
   }

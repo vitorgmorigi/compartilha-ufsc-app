@@ -12,7 +12,7 @@ export function ProfileHeader() {
       <View style={styles.header}>
         <View style={styles.welcome}>
           <Text style={styles.title}>Perfil</Text>
-          <Text style={styles.subtitle}>dados da sua conta Google</Text>
+          <Text style={styles.subtitle}>dados da sua conta idUFSC</Text>
         </View>
       </View>
     </View>
