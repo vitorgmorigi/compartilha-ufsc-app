@@ -18,12 +18,12 @@ export const styles = StyleSheet.create({
     fontFamily: theme.fonts.medium,
     color: theme.colors.text,
     fontSize: 20,
-    marginTop: -7,
+    marginTop: 0,
   },
   circleVisibility: {
     fontFamily: theme.fonts.medium,
     color: theme.colors.background,
     fontSize: 20,
-    marginTop: -7
+    marginTop: 0
   },
 });

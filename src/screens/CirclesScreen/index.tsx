@@ -1,7 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { Circle, CircleData } from '../../components/Circle';
 import { styles } from './styles';
 
@@ -57,8 +57,11 @@ export function CircleScreen() {
     <Circle name={circle.name} createdBy={circle.createdBy} visibility={circle.visibility} id={circle.id} password={circle.password}></Circle>)
     
    return <View style={styles.container}>
+     <View style={styles.content}>
+       <Text style={styles.title}>Círculos</Text>
             <ScrollView>
-                {/* <Circle name='BU' createdBy='vitor.morigi' visibility='public' id='1' password='1234'></Circle> */ circleComponents}
+                {circleComponents}
             </ScrollView>
+     </View>
     </View>
 }

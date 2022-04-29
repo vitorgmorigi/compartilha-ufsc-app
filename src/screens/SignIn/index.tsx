@@ -31,7 +31,7 @@ export function SignIn() {
 
     const response = {
       type: 'success',
-      params: { access_token: 'AT-219-cb-IlmTb31REgOT3xJHnxh0gv920D-I1' }
+      params: { access_token: 'AT-3594-YYdYkAOGljYEB5n0J27ZQt4kJH3MzSXR' }
     }
 
     console.log("RESPONSE: ", response);
