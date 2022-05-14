@@ -12,9 +12,9 @@ export type CircleData = {
 }
 
 export function Circle(props: CircleData) {
-    return <TouchableOpacity style={styles.circle}>
+    return <View style={styles.circle}>
         <Text style={styles.circleName}> { props.name } </Text>
         <Text style={styles.circleAuthor}> { props.createdBy } </Text>
         <Text style={styles.circleVisibility}> { props.visibility } </Text>
-    </TouchableOpacity>
+    </View>
 }

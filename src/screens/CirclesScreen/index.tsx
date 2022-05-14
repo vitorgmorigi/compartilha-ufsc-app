@@ -1,8 +1,10 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 
-import { ScrollView, Text, View } from "react-native";
+import { Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { TextInput } from 'react-native-gesture-handler';
 import { Circle, CircleData } from '../../components/Circle';
+import { theme } from '../../styles/theme';
 import { styles } from './styles';
 
 type ResponseAPICircles = {
@@ -20,6 +22,14 @@ type Params = {
 export function CircleScreen() {
     const [circles, setCircles] = useState([] as ResponseAPICircles[])
     const route = useRoute();
+
+    const [modalVisibility, setModalVisibility] = useState(false);
+
+    // criar useState aqui para controlar a visibilidade do modal
+
+    // onPress = () => {
+    //   setCircleAuthVisiblity(true)
+    //  }
 
     const { token } = route.params as Params;
 
@@ -54,14 +64,36 @@ export function CircleScreen() {
 
     const circleComponents = circles
     .map((circle) => 
-    <Circle name={circle.name} createdBy={circle.createdBy} visibility={circle.visibility} id={circle.id} password={circle.password}></Circle>)
+    <TouchableOpacity onPress={() => setModalVisibility(circle.visibility === 'private')}>
+      <Circle name={circle.name} createdBy={circle.createdBy} visibility={circle.visibility} id={circle.id} password={circle.password}></Circle>
+    </TouchableOpacity>)
     
-   return <View style={styles.container}>
+   return <View style={styles.container}> 
      <View style={styles.content}>
        <Text style={styles.title}>Círculos</Text>
             <ScrollView>
                 {circleComponents}
             </ScrollView>
+            <Modal style={[StyleSheet.absoluteFill, styles.modal]} visible={modalVisibility} animationType='slide' transparent={true}>
+              <View style={styles.modalView}>
+                <TouchableOpacity
+                  style={styles.buttonClose}
+                  onPress={() => setModalVisibility(!modalVisibility)}>
+                  <Text style={{fontFamily: theme.fonts.bold, color: 'white'}}>X</Text>
+                </TouchableOpacity>
+                <TextInput
+                  style={styles.modalText}
+                  placeholder='Digite a senha'
+                  secureTextEntry={true}
+                  keyboardType="default"
+                />  
+                <TouchableOpacity
+                  style={styles.button} 
+                  onPress={() => setModalVisibility(!modalVisibility)}>
+                  <Text style={{fontFamily: theme.fonts.bold, color: 'white'}}>Confirmar</Text>
+                </TouchableOpacity>
+              </View>
+            </Modal>
      </View>
     </View>
 }

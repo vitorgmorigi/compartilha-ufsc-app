@@ -23,4 +23,47 @@ export const styles = StyleSheet.create({
     fontSize: 32,
     paddingBottom: 20
   },
+  modal: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    backgroundColor: theme.colors.background,
+    margin: 45,
+    justifyContent: 'center',
+    borderRadius: 20,
+    padding: 35,
+    top: 200,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    color: '#000000',
+    fontFamily: theme.fonts.medium,
+    fontSize: 20,
+    padding: 20,
+    backgroundColor: 'white',
+    margin: 20,
+    paddingVertical: 6
+  },
+  button: {
+    backgroundColor: theme.colors.secondary,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: theme.colors.secondary,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    left: 90
+  },
 });
