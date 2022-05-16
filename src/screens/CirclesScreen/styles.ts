@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 20,
     padding: 35,
-    top: 200,
+    top: '30%',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
