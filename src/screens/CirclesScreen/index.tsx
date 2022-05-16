@@ -25,12 +25,6 @@ export function CircleScreen() {
 
     const [modalVisibility, setModalVisibility] = useState(false);
 
-    // criar useState aqui para controlar a visibilidade do modal
-
-    // onPress = () => {
-    //   setCircleAuthVisiblity(true)
-    //  }
-
     const { token } = route.params as Params;
 
     console.log("TOKEN TELA CIRCLES: ", token);
@@ -64,8 +58,8 @@ export function CircleScreen() {
 
     const circleComponents = circles
     .map((circle) => 
-    <TouchableOpacity onPress={() => setModalVisibility(circle.visibility === 'private')}>
-      <Circle name={circle.name} createdBy={circle.createdBy} visibility={circle.visibility} id={circle.id} password={circle.password}></Circle>
+    <TouchableOpacity key={circle.id} onPress={() => setModalVisibility(circle.visibility === 'private')}>
+      <Circle key={circle.id} name={circle.name} createdBy={circle.createdBy} visibility={circle.visibility} id={circle.id} password={circle.password}></Circle>
     </TouchableOpacity>)
     
    return <View style={styles.container}> 
