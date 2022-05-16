@@ -138,7 +138,7 @@ export function Profile() {
         </View>
 
         <Button
-          title="Desconectar"
+          title="Ver Círculos"
           icon="power"
           onPress={handleCircleScreen}
         />
