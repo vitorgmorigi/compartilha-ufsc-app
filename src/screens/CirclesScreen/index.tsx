@@ -1,5 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from 'react-native-gesture-handler';
@@ -58,7 +59,13 @@ export function CircleScreen() {
 
     const circleComponents = circles
     .map((circle) => 
-    <TouchableOpacity key={circle.id} onPress={() => setModalVisibility(circle.visibility === 'private')}>
+    <TouchableOpacity key={circle.id} onPress={async () => {
+      const userProfile = await AsyncStorage.getItem('@user_profile');
+
+      const userProfileJson = userProfile !== null ? JSON.parse(userProfile) : null;
+
+      return setModalVisibility(circle.visibility === 'private' && !userProfileJson?.privateCircles.includes(circle.id))
+      }}>
       <Circle key={circle.id} name={circle.name} createdBy={circle.createdBy} visibility={circle.visibility} id={circle.id} password={circle.password}></Circle>
     </TouchableOpacity>)
     

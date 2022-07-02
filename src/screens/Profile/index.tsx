@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { ProfileHeader } from '../../components/ProfileHeader';
 import { Avatar } from '../../components/Avatar';
@@ -18,6 +19,7 @@ type Data = {
   institutionalEmail: string;
   login: string;
   name: string;
+  privateCircles: string[];
 }
 
 type Body = {
@@ -60,12 +62,14 @@ export function Profile() {
     };
 
     const response = await fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/login`, options);
-
+    
     const responseJson: ResponseAPISignIn = await response.json();
     console.log("Response do endpoint: ", responseJson);
-
+    
     const profile = responseJson.body.data;
-
+    
+    await AsyncStorage.setItem('@user_profile', JSON.stringify(profile))
+    
     setProfile(profile);
   }
 
@@ -117,10 +121,10 @@ export function Profile() {
               color={theme.colors.note}
             />
             <Text style={styles.label}>
-              CPF
+              E-mail
             </Text>
             <Text style={styles.text}>
-              { profile.cpf }
+              { profile.institutionalEmail }
             </Text>
           </View>
         </View>
