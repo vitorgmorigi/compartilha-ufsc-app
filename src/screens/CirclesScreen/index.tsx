@@ -41,8 +41,6 @@ export function CircleScreen() {
       const response = await joinInAPrivateCircle(token, clickedCircle.id, typedPassword);
 
       if (response.ok) {
-        console.log("RESPONSE DO JOIN CIRCLE: ", JSON.stringify(response));
-
         navigation.navigate('Profile', { token });
       }
     }
