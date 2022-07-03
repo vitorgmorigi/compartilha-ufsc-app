@@ -48,8 +48,8 @@ export function Profile() {
     navigation.navigate('SignIn');
   }
 
-  async function handleCircleScreen() {
-    navigation.navigate('CircleScreen', { token });
+  async function handleCircleListing() {
+    navigation.navigate('CircleListing', { token });
   }
 
   async function loadProfile() {
@@ -143,7 +143,7 @@ export function Profile() {
         <Button
           title="Ver Círculos"
           icon="power"
-          onPress={handleCircleScreen}
+          onPress={handleCircleListing}
         />
       </View>
     </View>

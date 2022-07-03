@@ -22,7 +22,7 @@ type Params = {
     token: string;
   }
 
-export function CircleScreen() {
+export function CircleListing() {
     const navigation = useNavigation();
 
     const [circles, setCircles] = useState([] as ResponseAPICircles[])
