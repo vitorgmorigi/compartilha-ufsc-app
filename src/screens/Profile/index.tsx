@@ -64,7 +64,6 @@ export function Profile() {
     const response = await fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/login`, options);
     
     const responseJson: ResponseAPISignIn = await response.json();
-    console.log("Response do endpoint: ", responseJson);
     
     const profile = responseJson.body.data;
     

@@ -31,12 +31,12 @@ export function SignIn() {
 
     const response = {
       type: 'success',
-      params: { access_token: 'AT-17680-85SHzU0mnNT6kKrcIRvvT8NL4ZnyChJ-' }
+      params: { access_token: 'AT-13345-LvGcD9-ci4tDAz9HdrZhKGSX-ZxoKs-Y' }
     }
 
     console.log("RESPONSE: ", response);
 
-    if (response.type = "success") {
+    if (response.type === "success") {
       navigation.navigate('Profile', { token: response.params.access_token });
     }
 

@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,6 +7,8 @@ import { TextInput } from 'react-native-gesture-handler';
 import { Circle, CircleData } from '../../components/Circle';
 import { theme } from '../../styles/theme';
 import { styles } from './styles';
+import { createHash } from '../../helpers/crypto';
+import { joinInAPrivateCircle, listCircles } from '../../requests';
 
 type ResponseAPICircles = {
     id: string;
@@ -21,45 +23,47 @@ type Params = {
   }
 
 export function CircleScreen() {
+    const navigation = useNavigation();
+
     const [circles, setCircles] = useState([] as ResponseAPICircles[])
+
+    const [clickedCircle, setClickedCircle] = useState({} as ResponseAPICircles);
+    
     const route = useRoute();
 
     const [modalVisibility, setModalVisibility] = useState(false);
 
+    const [typedPassword, setTypedPassword] = useState('');
+
     const { token } = route.params as Params;
 
-    console.log("TOKEN TELA CIRCLES: ", token);
+    async function handleConfirmPassword() {  
+      const response = await joinInAPrivateCircle(token, clickedCircle.id, typedPassword);
+
+      if (response.ok) {
+        console.log("RESPONSE DO JOIN CIRCLE: ", JSON.stringify(response));
+
+        navigation.navigate('Profile', { token });
+      }
+    }
 
     async function loadCircles() {
-        const options = {
-          method: "GET",
-          headers: {
-            Authorization: token,
-            "Content-Type": "application/json;charset=UTF-8",
-          }
-        };
+      const response = await listCircles(token);
+  
+      const circles: ResponseAPICircles[] = await response.json();
 
-        console.log("PASSEI AQUIII ");
-    
-        const response = await fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/circle`, options);
-
-        console.log("RESPONSE CIRCLES: ", response);
-    
-        const circles: ResponseAPICircles[] = await response.json();
-        console.log("Response do endpoint: ", circles);
-
-        setCircles(circles);
-      }
+      setCircles(circles);
+    }
 
       useEffect(() => {
         loadCircles();
       }, [])
 
-      console.log("CIRCLES: ", JSON.stringify(circles));
-
     const circleComponents = circles
     .map((circle) => 
     <TouchableOpacity key={circle.id} onPress={async () => {
+      setClickedCircle(circle);
+
       const userProfile = await AsyncStorage.getItem('@user_profile');
 
       const userProfileJson = userProfile !== null ? JSON.parse(userProfile) : null;
@@ -87,10 +91,15 @@ export function CircleScreen() {
                   placeholder='Digite a senha'
                   secureTextEntry={true}
                   keyboardType="default"
+                  onChangeText={typedPassword => setTypedPassword(createHash(typedPassword))}
                 />  
                 <TouchableOpacity
                   style={styles.button} 
-                  onPress={() => setModalVisibility(!modalVisibility)}>
+                  onPress={() => {
+                    setModalVisibility(!modalVisibility)
+                    
+                    return handleConfirmPassword();
+                    }}>
                   <Text style={{fontFamily: theme.fonts.bold, color: 'white'}}>Confirmar</Text>
                 </TouchableOpacity>
               </View>
