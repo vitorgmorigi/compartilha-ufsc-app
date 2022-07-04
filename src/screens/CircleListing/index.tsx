@@ -37,11 +37,17 @@ export function CircleListing() {
 
     const { token } = route.params as Params;
 
+    function handleCircleItemListing() {
+      console.log("CLICKED CIRCLE: ", clickedCircle);
+
+      navigation.navigate('CircleItemListing', { token, circleId: clickedCircle.id });
+    }
+
     async function handleConfirmPassword() {  
       const response = await joinInAPrivateCircle(token, clickedCircle.id, typedPassword);
 
       if (response.ok) {
-        navigation.navigate('Profile', { token });
+        handleCircleItemListing();
       }
     }
 
@@ -62,11 +68,17 @@ export function CircleListing() {
     <TouchableOpacity key={circle.id} onPress={async () => {
       setClickedCircle(circle);
 
-      const userProfile = await AsyncStorage.getItem('@user_profile');
+      if (circle.visibility === 'private') {
+        const userProfile = await AsyncStorage.getItem('@user_profile');
+  
+        const userProfileJson = userProfile !== null ? JSON.parse(userProfile) : null;
 
-      const userProfileJson = userProfile !== null ? JSON.parse(userProfile) : null;
-
-      return setModalVisibility(circle.visibility === 'private' && !userProfileJson?.privateCircles.includes(circle.id))
+        if (!userProfileJson?.privateCircles.includes(circle.id)) {
+          return setModalVisibility(true)
+        }
+      }
+      
+      return handleCircleItemListing();
       }}>
       <Circle key={circle.id} name={circle.name} createdBy={circle.createdBy} visibility={circle.visibility} id={circle.id} password={circle.password}></Circle>
     </TouchableOpacity>)
