@@ -67,8 +67,6 @@ export function ItemDetails() {
 
       const responseJson: ItemDetailsResponseAPI = await response.json();
       
-      console.log("listItemDetails RESPONSE: ", responseJson);
-
       setItemDetails(responseJson.body);
     }
 
@@ -76,9 +74,6 @@ export function ItemDetails() {
         loadItemDetails();
       }, [])
 
-    console.log("ITEM DETAILS: ", JSON.stringify(itemDetails));
-
-    
    return <View style={styles.container}> 
      <View style={styles.content}>
        <Text style={styles.title}>{itemDetails.name}</Text>

@@ -66,16 +66,12 @@ export function CircleItemListing() {
 
       const responseJson: CircleItemListingAPIResponse = await response.json();
       
-      console.log("listItemsInACircle RESPONSE: ", responseJson);
-
       setItems(responseJson.body.items);
     }
 
       useEffect(() => {
         loadItems();
       }, [])
-
-    console.log("ITEMS: ", JSON.stringify(items));
 
     const itemComponents = items
     .map((item) => 

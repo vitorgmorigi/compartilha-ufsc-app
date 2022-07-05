@@ -34,8 +34,6 @@ export function SignIn() {
       params: { access_token: 'AT-13345-LvGcD9-ci4tDAz9HdrZhKGSX-ZxoKs-Y' }
     }
 
-    console.log("RESPONSE: ", response);
-
     if (response.type === "success") {
       navigation.navigate('Profile', { token: response.params.access_token });
     }

@@ -80,8 +80,6 @@ export function listItemsInACircle(token: string, circleId: string, searchAttrib
         requestURL.concat(`itemName=${searchAttributes?.itemName}`)
       }
 
-      console.log("REQUEST URL: ", requestURL);
-
       return fetch(requestURL, options);
 }
 
