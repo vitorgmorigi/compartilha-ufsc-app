@@ -113,10 +113,10 @@ export function Profile() {
               color={theme.colors.note}
             />
             <Text style={styles.label}>
-              E-mail
+              Aniversário
             </Text>
             <Text style={styles.text}>
-              { profile.institutionalEmail }
+              { profile.birthday }
             </Text>
           </View>
         </View>
@@ -134,8 +134,20 @@ export function Profile() {
         </View>
 
         <Button
+          title="Visualizar Feed"
+          icon="feed"
+          onPress={handleCircleListing}
+        />
+
+        <Button
+          title="Criar item"
+          icon="rocket"
+          onPress={handleCircleListing}
+        />
+
+        <Button
           title="Ver Círculos"
-          icon="power"
+          icon="eye"
           onPress={handleCircleListing}
         />
       </View>

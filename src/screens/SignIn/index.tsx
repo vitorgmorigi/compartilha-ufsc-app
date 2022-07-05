@@ -48,7 +48,7 @@ export function SignIn() {
 
       <Button
         title="Entrar com idUFSC"
-        icon="social-google"
+        icon="rocket"
         onPress={handleSignIn}
       />
     </View>

@@ -15,13 +15,13 @@ export function SignInContent() {
         </Text>
 
         <Text style={styles.subtitle}>
-          Entre com sua conta Google para {'\n'}
-          ser mais rápido e vamos decolar.
+          Entre com sua conta idUFSC para ser começar a 
+          difundir a cultura do compartilhamento na universidade!
         </Text>
 
         <Text style={styles.description}>
-          Compreendendo os conceitos e implementando na prática
-          a estratégia de login social utilizando o padrão OAuth.
+          O Compartilha UFSC surgiu com o intuito de diminuir o desperdício de materiais e insumos, contribuindo 
+          para a preservação do nosso planeta!
         </Text>
       </View>
     </View>
