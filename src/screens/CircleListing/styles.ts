@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowRadius: 10,
     elevation: 5,
   },
   modalText: {

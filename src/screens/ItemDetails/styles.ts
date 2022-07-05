@@ -22,5 +22,17 @@ export const styles = StyleSheet.create({
     color: theme.colors.text,
     fontSize: 32,
     paddingBottom: 20
+  },
+  subtitle: {
+    fontFamily: theme.fonts.bold,
+    color: theme.colors.text,
+    fontSize: 20,
+    paddingBottom: 10
+  },
+  textValue: {
+    fontFamily: theme.fonts.bold,
+    color: theme.colors.secondary,
+    fontSize: 12,
+    paddingBottom: 10
   }
 });
