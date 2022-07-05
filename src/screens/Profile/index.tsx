@@ -10,6 +10,7 @@ import { Button } from '../../components/Button';
 
 import { styles } from './styles';
 import { theme } from '../../styles/theme';
+import { getProfile } from '../../requests';
 
 type Data = {
   id: string;
@@ -28,7 +29,7 @@ type Body = {
   data: Data;
 }
 
-type ResponseAPISignIn = {
+export type ResponseAPISignIn = {
   body: Body;
 }
 
@@ -53,15 +54,7 @@ export function Profile() {
   }
 
   async function loadProfile() {
-    const options = {
-      method: "POST",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json;charset=UTF-8",
-      }
-    };
-
-    const response = await fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/login`, options);
+    const response = await getProfile(token);
     
     const responseJson: ResponseAPISignIn = await response.json();
     

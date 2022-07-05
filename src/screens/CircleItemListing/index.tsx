@@ -40,7 +40,10 @@ type CircleItemListingAPIResponse = {
 
 type Params = {
     token: string;
-    circleId: string;
+    circle: { 
+      id: string; 
+      name: string;
+    };
   }
 
 export function CircleItemListing() {
@@ -52,18 +55,14 @@ export function CircleItemListing() {
     
     const route = useRoute();
 
-    const { token, circleId } = route.params as Params;
+    const { token, circle } = route.params as Params;
 
-    async function handleItemDetails() {  
-      const response = await listItemDetails(token, clickedItem.id);
-
-      if (response.ok) {
-        navigation.navigate('Profile', { token });
-      }
+    function handleItemDetails(itemId: string) {  
+      navigation.navigate('ItemDetails', { token, itemId });
     }
 
     async function loadItems() {
-      const response = await listItemsInACircle(token, circleId);
+      const response = await listItemsInACircle(token, circle.id);
 
       const responseJson: CircleItemListingAPIResponse = await response.json();
       
@@ -80,10 +79,10 @@ export function CircleItemListing() {
 
     const itemComponents = items
     .map((item) => 
-    <TouchableOpacity key={item.id} onPress={async () => {
-      return setClickedItem(item);
+    <TouchableOpacity key={item.id} onPress={() => {
+      setClickedItem(item);
 
-      // colocar aqui a chamada pra próxima tela
+      return handleItemDetails(item.id);
       }}>
       <Item 
       key={item.id} 
@@ -98,7 +97,7 @@ export function CircleItemListing() {
     
    return <View style={styles.container}> 
      <View style={styles.content}>
-       <Text style={styles.title}>Itens</Text>
+       <Text style={styles.title}>{circle.name}</Text>
             <ScrollView>
                 {itemComponents}
             </ScrollView>

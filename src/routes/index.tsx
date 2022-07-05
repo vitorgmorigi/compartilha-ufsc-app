@@ -5,8 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Profile } from '../screens/Profile';
 import { SignIn } from '../screens/SignIn';
 import { CircleListing } from '../screens/CircleListing';
-import { theme } from '../styles/theme';
 import { CircleItemListing } from '../screens/CircleItemListing';
+import { ItemDetails } from '../screens/ItemDetails';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -29,6 +29,10 @@ export function Routes() {
         <Screen
           name="CircleItemListing"
           component={CircleItemListing}
+        />
+        <Screen
+          name="ItemDetails"
+          component={ItemDetails}
         />
       </Navigator>
     </NavigationContainer>

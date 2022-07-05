@@ -9,6 +9,7 @@ import { theme } from '../../styles/theme';
 import { styles } from './styles';
 import { createHash } from '../../helpers/crypto';
 import { joinInAPrivateCircle, listCircles } from '../../requests';
+import { updateProfile } from '../../helpers/update-profile';
 
 type ResponseAPICircles = {
     id: string;
@@ -37,17 +38,17 @@ export function CircleListing() {
 
     const { token } = route.params as Params;
 
-    function handleCircleItemListing() {
-      console.log("CLICKED CIRCLE: ", clickedCircle);
-
-      navigation.navigate('CircleItemListing', { token, circleId: clickedCircle.id });
+    function handleCircleItemListing(circle: ResponseAPICircles) {
+      navigation.navigate('CircleItemListing', { token, circle: { id: circle.id, name: circle.name } });
     }
 
-    async function handleConfirmPassword() {  
-      const response = await joinInAPrivateCircle(token, clickedCircle.id, typedPassword);
+    async function handleConfirmPassword(circle: ResponseAPICircles) {  
+      const response = await joinInAPrivateCircle(token, circle.id, typedPassword);
 
       if (response.ok) {
-        handleCircleItemListing();
+        await updateProfile(token);
+
+        handleCircleItemListing(circle);
       }
     }
 
@@ -67,18 +68,18 @@ export function CircleListing() {
     .map((circle) => 
     <TouchableOpacity key={circle.id} onPress={async () => {
       setClickedCircle(circle);
-
+      
       if (circle.visibility === 'private') {
         const userProfile = await AsyncStorage.getItem('@user_profile');
-  
+        
         const userProfileJson = userProfile !== null ? JSON.parse(userProfile) : null;
-
+        
         if (!userProfileJson?.privateCircles.includes(circle.id)) {
           return setModalVisibility(true)
         }
       }
       
-      return handleCircleItemListing();
+      return handleCircleItemListing(circle);
       }}>
       <Circle key={circle.id} name={circle.name} createdBy={circle.createdBy} visibility={circle.visibility} id={circle.id} password={circle.password}></Circle>
     </TouchableOpacity>)
@@ -108,7 +109,7 @@ export function CircleListing() {
                   onPress={() => {
                     setModalVisibility(!modalVisibility)
                     
-                    return handleConfirmPassword();
+                    return handleConfirmPassword(clickedCircle);
                     }}>
                   <Text style={{fontFamily: theme.fonts.bold, color: 'white'}}>Confirmar</Text>
                 </TouchableOpacity>
