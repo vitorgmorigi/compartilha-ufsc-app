@@ -37,6 +37,19 @@ export function joinInAPrivateCircle(token: string, circleId: string, typedPassw
         return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/user/circle`, options);
 }
 
+export function listCategories(token: string) {
+  const options = {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json;charset=UTF-8",
+      }
+    };
+
+    return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/category`, options);
+}
+
+
 export function listCircles(token: string) {
     const options = {
         method: "GET",

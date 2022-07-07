@@ -53,6 +53,10 @@ export function Profile() {
     navigation.navigate('CircleListing', { token });
   }
 
+  async function handleCreateItem() {
+    navigation.navigate('CreateItem', { token });
+  }
+
   async function loadProfile() {
     const response = await getProfile(token);
     
@@ -142,7 +146,7 @@ export function Profile() {
         <Button
           title="Criar item"
           icon="rocket"
-          onPress={handleCircleListing}
+          onPress={handleCreateItem}
         />
 
         <Button
