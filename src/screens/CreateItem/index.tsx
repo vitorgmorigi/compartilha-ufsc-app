@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from 'react-native-gesture-handler';
+import {Picker} from '@react-native-picker/picker';
+
 import { Circle, CircleData } from '../../components/Circle';
 import { theme } from '../../styles/theme';
 import { styles } from './styles';
@@ -39,6 +41,12 @@ export function CreateItem() {
     const [selectedCircle, setSelectedCircle] = useState({} as ResponseAPICircles);
 
     const [selectedCategory, setSelectedCategory] = useState({} as ResponseAPICategories);
+
+    const today = new Date();
+
+    const [expirationDate, setExpirationDate] = useState(null as Date | null);
+    
+    const [conservationState, setConservationState] = useState('');
     
     const route = useRoute();
 
@@ -84,10 +92,6 @@ export function CreateItem() {
         setCategories(categories);
       }
 
-      useEffect(() => {
-        loadCircles();
-      }, [])
-    
    return <View style={styles.container}> 
      <View style={styles.content}>
        <Text style={styles.title}>Criar item</Text>
@@ -107,20 +111,60 @@ export function CreateItem() {
                   textAlignVertical='top'
                 />  
                 <Text style={styles.subtitle}>Categoria:</Text>
+                <TouchableOpacity style={{backgroundColor: '#fff', height: 50}} onPress={loadCategories}>
+                  <Picker
+                    selectedValue={selectedCategory}
+                    onValueChange={(itemValue) =>
+                      setSelectedCategory(itemValue)
+                    }>
+                    {categories.map((category) => <Picker.Item key={category.id} label={category.name} value={JSON.stringify(category)}/>)}
+                  </Picker>
+                </TouchableOpacity>
                 <Text style={styles.subtitle}>Círculo:</Text>
+                <TouchableOpacity style={{backgroundColor: '#fff', height: 50}} onPress={loadCircles}>
+                  <Picker
+                    selectedValue={selectedCircle}
+                    onValueChange={(itemValue) =>
+                      setSelectedCategory(itemValue)
+                    }>
+                    {circles.map((circle) => <Picker.Item key={circle.id} label={circle.name} value={JSON.stringify(circle)}/>)}
+                  </Picker>
+                </TouchableOpacity>
                 <Text style={styles.subtitle}>Estado de conservação:</Text>
-                <TextInput
-                  style={styles.modalText}
-                  keyboardType="default"
-                  onChangeText={name => setName(name)}
-                />  
+                <View style={{backgroundColor: '#fff', height: 50}}>
+                  <Picker
+                    selectedValue={conservationState}
+                    onValueChange={(itemValue) =>
+                      setConservationState(itemValue)
+                    }>
+                    <Picker.Item label="Novo" value="Novo"/>
+                    <Picker.Item label="Estado de novo" value="Estado de novo"/>
+                    <Picker.Item label="Em boas condições" value="Em boas condições"/>
+                    <Picker.Item label="Em condições razoáveis" value="Em condições razoáveis"/>
+                  </Picker>
+                </View>
                 <Text style={styles.subtitle}>Localização:</Text>
                 <TextInput
                   style={styles.modalText}
+                  placeholder="Sala, laboratório..."
                   keyboardType="default"
                   onChangeText={name => setName(name)}
                 />  
                 <Text style={styles.subtitle}>Data de Expiração:</Text>
+                <View style={{backgroundColor: '#fff', height: 50}}>
+                  <Picker
+                    selectedValue={expirationDate}
+                    onValueChange={(itemValue, itemIndex) =>
+                      setExpirationDate(itemValue)
+                    }>
+                    <Picker.Item label="1 semana" value={new Date(today.getFullYear(), today.getMonth(), today.getDate()+7).toISOString()} />
+                    <Picker.Item label="2 semanas" value={new Date(today.getFullYear(), today.getMonth(), today.getDate()+14).toISOString()} />
+                    <Picker.Item label="1 mês" value={new Date(today.getFullYear(), today.getMonth()+1, today.getDate()).toISOString()} />
+                    <Picker.Item label="3 meses" value={new Date(today.getFullYear(), today.getMonth()+3, today.getDate()).toISOString()} />
+                    <Picker.Item label="6 meses" value={new Date(today.getFullYear(), today.getMonth()+6, today.getDate()).toISOString()} />
+                    <Picker.Item label="1 ano" value={new Date(today.getFullYear()+1, today.getMonth(), today.getDate()).toISOString()} />
+                  </Picker>
+                </View>
                 <Text style={styles.subtitle}>Imagem:</Text>
             </ScrollView>
      </View>
