@@ -40,7 +40,7 @@ export default function App() {
       />
 
       <FlashMessage position="bottom"/>
-
+      
       <Routes />
     </View>
   );
