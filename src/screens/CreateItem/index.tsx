@@ -2,17 +2,14 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, ScrollView, Text, View } from "react-native";
 import { TextInput } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
+import { showMessage } from "react-native-flash-message";
 
-import { Circle, CircleData } from '../../components/Circle';
-import { theme } from '../../styles/theme';
 import { styles } from './styles';
-import { createHash } from '../../helpers/crypto';
-import { createItem, joinInAPrivateCircle, listCategories, listCircles } from '../../requests';
-import { updateProfile } from '../../helpers/update-profile';
+import { createItem, listCategories, listCircles } from '../../requests';
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
 import { Button } from '../../components/Button';
 
@@ -69,7 +66,7 @@ export function CreateItem() {
 
     const today = new Date();
 
-    const [expirationDate, setExpirationDate] = useState(null as string | null);
+    const [expirationDate, setExpirationDate] = useState(new Date(today.getFullYear(), today.getMonth(), today.getDate()+7).toISOString());
     
     const [conservationState, setConservationState] = useState('Novo');
 
@@ -132,10 +129,18 @@ export function CreateItem() {
       console.log("RESPONSE CREATE ITEM", JSON.stringify(responseJson));
 
       if (responseJson.statusCode === 201) {
+        showMessage({
+          message: "Item criado com sucesso",
+          type: "success",
+        });
+
         return navigation.navigate('Profile', { token });
       }
 
-      Alert.alert(`Houve um erro ao criar o item: ${response.body}`);
+      showMessage({
+        message: "Houve um erro ao criar o item",
+        type: "danger",
+      });
     }
 
     async function loadCircles() {

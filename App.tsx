@@ -13,6 +13,7 @@ import {
 import { Routes } from './src/routes';
 import { View } from 'react-native';
 import { theme } from './src/styles/theme';
+import FlashMessage from 'react-native-flash-message';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -37,6 +38,8 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
+
+      <FlashMessage position="bottom"/>
 
       <Routes />
     </View>
