@@ -87,5 +87,11 @@ export const styles = StyleSheet.create({
     color: theme.colors.secondary,
     fontSize: 12,
     paddingBottom: 10
-  }
+  },
+  buttons: {
+    flex: 1,
+    justifyContent: 'space-around',
+    paddingBottom: getBottomSpace() + 20,
+    paddingHorizontal: 44,
+  },
 });

@@ -1,3 +1,6 @@
+import { Alert } from "react-native";
+import { PayloadCreateItemAPI } from "../screens/CreateItem";
+
 export function getToken(authorizationCode: string) {
   const options = {
     method: "GET",
@@ -35,6 +38,38 @@ export function joinInAPrivateCircle(token: string, circleId: string, typedPassw
         };
 
         return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/user/circle`, options);
+}
+
+export async function createItem(token: string, payload: PayloadCreateItemAPI) {
+  const formData = new FormData();
+
+  formData.append("name", payload.name);
+  formData.append("description", payload.description);
+  formData.append("expiration_date", payload.expiration_date);
+  formData.append("localization", payload.localization);
+  // @ts-ignore
+  formData.append("circle", payload.circle);
+  formData.append("conservation_state", payload.conservation_state);
+  // @ts-ignore
+  formData.append("category", payload.category);
+  // @ts-ignore
+  formData.append("image", payload.image);
+
+  const options: RequestInit = {
+    method: "POST",
+    headers: {
+        Authorization: token,
+        "Content-Type": "multipart/form-data",
+        Accept: "application/json",
+    },
+    body: formData
+  };
+
+  return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/item`, options);
+  //   .then((returnValue) => returnValue)
+  //   .catch((error) => Alert.alert("Ocorreu um erro:", error.message));
+
+  // return response;
 }
 
 export function listCategories(token: string) {
