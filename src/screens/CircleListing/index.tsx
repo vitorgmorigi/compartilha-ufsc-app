@@ -39,7 +39,7 @@ export function CircleListing() {
     const { token } = route.params as Params;
 
     function handleCircleItemListing(circle: ResponseAPICircles) {
-      navigation.navigate('CircleItemListing', { token, circle: { id: circle.id, name: circle.name } });
+      navigation.navigate('CircleItemListing', { token, circle: { id: circle.id, name: circle.name }, isFeed: false });
     }
 
     async function handleConfirmPassword(circle: ResponseAPICircles) {  

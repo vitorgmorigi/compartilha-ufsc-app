@@ -1,14 +1,9 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-import { Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { TextInput } from 'react-native-gesture-handler';
-import { Circle, CircleData } from '../../components/Circle';
-import { theme } from '../../styles/theme';
 import { styles } from './styles';
-import { createHash } from '../../helpers/crypto';
-import { listItemDetails, listItemsInACircle } from '../../requests';
+import { listFeed, listItemsInACircle } from '../../requests';
 import { Item } from '../../components/Item';
 
 type ItemResponseAPI = {
@@ -44,6 +39,7 @@ type Params = {
       id: string; 
       name: string;
     };
+    isFeed: boolean
   }
 
 export function CircleItemListing() {
@@ -55,14 +51,15 @@ export function CircleItemListing() {
     
     const route = useRoute();
 
-    const { token, circle } = route.params as Params;
+    const { token, circle, isFeed } = route.params as Params;
 
     function handleItemDetails(itemId: string) {  
       navigation.navigate('ItemDetails', { token, itemId });
     }
 
     async function loadItems() {
-      const response = await listItemsInACircle(token, circle.id);
+      const response = isFeed ? await listFeed(token) : 
+        await listItemsInACircle(token, circle.id);
 
       const responseJson: CircleItemListingAPIResponse = await response.json();
       
@@ -93,7 +90,7 @@ export function CircleItemListing() {
     
    return <View style={styles.container}> 
      <View style={styles.content}>
-       <Text style={styles.title}>{circle.name}</Text>
+       <Text style={styles.title}>{ isFeed ? 'Feed' : circle.name}</Text>
             <ScrollView>
                 {itemComponents}
             </ScrollView>

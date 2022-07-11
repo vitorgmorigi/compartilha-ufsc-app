@@ -49,6 +49,10 @@ export function Profile() {
     navigation.navigate('SignIn');
   }
 
+  async function handleCircleItemListing() {
+    navigation.navigate('CircleItemListing', { token, isFeed: true });
+  }
+
   async function handleCircleListing() {
     navigation.navigate('CircleListing', { token });
   }
@@ -140,7 +144,7 @@ export function Profile() {
         <Button
           title="Visualizar Feed"
           icon="feed"
-          onPress={handleCircleListing}
+          onPress={handleCircleItemListing}
         />
 
         <Button
