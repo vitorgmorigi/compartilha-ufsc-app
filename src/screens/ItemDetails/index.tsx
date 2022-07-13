@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react';
 
 import { ScrollView, Text, View } from "react-native";
 import { styles } from './styles';
-import { listItemDetails } from '../../requests';
+import { createItemInterest, listItemDetails } from '../../requests';
 import { ItemDetailsImage } from '../../components/ItemDetailsImage';
 import { Button } from '../../components/Button';
+import { showMessage } from 'react-native-flash-message';
 
-type ItemDetails = {
+export type ItemDetails = {
   id: string;
   name: string;
   createdBy: {
@@ -54,12 +55,24 @@ export function ItemDetails() {
 
     const { token, itemId } = route.params as Params;
 
-    async function handleItemDetails() {  
-      const response = await listItemDetails(token, itemId);
+    async function handleItemInterest() {  
+      const response = await createItemInterest(token, itemDetails);
 
       if (response.ok) {
-        navigation.navigate('Profile', { token });
+        const responseJson = await response.json();
+        
+        showMessage({
+          message: responseJson.body.message,
+          type: "success",
+        });
+
+        return navigation.navigate('Profile', { token });
       }
+
+      showMessage({
+        message: "Ocorreu um erro ao criar o registro de interesse",
+        type: "danger",
+      });
     }
 
     async function loadItemDetails() {
@@ -97,6 +110,7 @@ export function ItemDetails() {
             <Button
               title="Tenho interesse!"
               icon="basket"
+              onPress={handleItemInterest}
             />
      </View>
     </View>

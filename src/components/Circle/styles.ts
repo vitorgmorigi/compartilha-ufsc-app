@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   circle: {
     backgroundColor: theme.colors.secondary,
     padding: 12,
-    borderRadius: 5,
+    borderRadius: 5.0,
     marginBottom: 10,
     marginTop: 10,
    },

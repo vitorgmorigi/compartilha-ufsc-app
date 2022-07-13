@@ -1,5 +1,6 @@
 import { Alert } from "react-native";
 import { PayloadCreateItemAPI } from "../screens/CreateItem";
+import { ItemDetails } from "../screens/ItemDetails";
 
 export function getToken(authorizationCode: string) {
   const options = {
@@ -22,6 +23,19 @@ export function getProfile(token: string) {
   };
 
   return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/login`, options);
+}
+
+export function createItemInterest(token: string, item: ItemDetails) {
+  const options: RequestInit = {
+      method: "POST",
+      headers: {
+          Authorization: token,
+          "Content-Type": "application/json;charset=UTF-8",
+      },
+      body: JSON.stringify({ item })
+      };
+
+      return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/item-interest`, options);
 }
 
 export function joinInAPrivateCircle(token: string, circleId: string, typedPassword: string) {

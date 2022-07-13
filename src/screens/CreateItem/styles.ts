@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
     margin: 45,
     justifyContent: 'center',
-    borderRadius: 20,
+    borderRadius: 20.0,
     padding: 35,
     top: '30%',
     alignItems: 'center',
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
       height: 2,
     },
     shadowOpacity: 0.25,
-    shadowRadius: 10,
+    shadowRadius: 10.0,
     elevation: 5,
   },
   modalText: {
