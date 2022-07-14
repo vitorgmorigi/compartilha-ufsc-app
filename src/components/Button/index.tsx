@@ -15,7 +15,7 @@ export function Button({ title, icon, ...rest }: Props) {
     <TouchableOpacity style={styles.container} activeOpacity={.7} {...rest}>
       <SimpleLineIcons
         name={icon}
-        size={34}
+        size={18}
         color={theme.colors.secondary}
       />
 

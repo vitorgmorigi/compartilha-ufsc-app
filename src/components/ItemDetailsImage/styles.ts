@@ -6,12 +6,12 @@ export const Container = styled.View`
   shadow-color: #000;
   shadow-offset: 0 0;
   shadow-opacity: 0.2;
-  shadow-radius: 10;
+  shadow-radius: 10.0;
   elevation: 3;
   border: 1px solid #ddd;
   flex-direction: row;
   margin-bottom: 10px;
-  border-radius: 5;
+  border-radius: 5.0;
 `;
 
 export const ProductImage = styled.Image`

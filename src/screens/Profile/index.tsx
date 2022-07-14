@@ -130,15 +130,6 @@ export function Profile() {
         </View>
 
         <View style={styles.locale}>
-          <Feather
-            name="map-pin"
-            size={18}
-            color={theme.colors.note}
-          />
-
-          <Text style={styles.localeText}>
-            Localidade do perfil do usuário: pt-BR
-          </Text>
         </View>
 
         <Button
@@ -148,15 +139,21 @@ export function Profile() {
         />
 
         <Button
-          title="Criar item"
-          icon="rocket"
-          onPress={handleCreateItem}
+          title="Visualizar Círculos"
+          icon="eye"
+          onPress={handleCircleListing}
         />
 
         <Button
-          title="Ver Círculos"
-          icon="eye"
-          onPress={handleCircleListing}
+          title="Meus itens publicados"
+          icon="cloud-upload"
+          onPress={handleCircleItemListing}
+        />
+
+        <Button
+          title="Publicar item"
+          icon="rocket"
+          onPress={handleCreateItem}
         />
       </View>
     </View>
