@@ -12,6 +12,8 @@ import { styles } from './styles';
 import { createItem, listCategories, listCircles } from '../../requests';
 import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
 import { Button } from '../../components/Button';
+import { getFilename } from '../../helpers/filename';
+import { getImageExtensionFile, getImageMimeType } from '../../helpers/mime-types';
 
 type ResponseAPICategories = {
     id: string;
@@ -102,7 +104,8 @@ export function CreateItem() {
     };
 
     async function handleCreateItem() {
-      const filename = image!.uri.split('/')[9];
+      const filename = getFilename(image!.uri);
+      const extension = getImageExtensionFile(filename);
 
 
       const payload: PayloadCreateItemAPI = {
@@ -115,7 +118,7 @@ export function CreateItem() {
         image: {
           uri: image!.uri,
           name: filename,
-          type: "image/jpeg"
+          type: getImageMimeType(extension)
         },
         localization
       };
@@ -243,7 +246,7 @@ export function CreateItem() {
                     <Picker.Item label="1 ano" value={new Date(today.getFullYear()+1, today.getMonth(), today.getDate()).toISOString()} />
                   </Picker>
                 </View>
-                <Text style={styles.subtitle}>Imagem:</Text>
+                <Text style={styles.subtitle}>Imagem (png ou jpg):</Text>
                 <Button
                   title={imageLabel}
                   icon='picture'
