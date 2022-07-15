@@ -133,6 +133,20 @@ export function listFeed(token: string, searchAttributes?: Partial<{ itemName: s
       return fetch(requestURL, options);
 }
 
+export function listUserItems(token: string) {
+  const options = {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json;charset=UTF-8",
+      }
+    };
+
+    const requestURL = `https://us-central1-compartilha-ufsc.cloudfunctions.net/api/user/items`;
+
+    return fetch(requestURL, options);;
+}
+
 export function listItemsInACircle(token: string, circleId: string, searchAttributes?: Partial<{ itemName: string, categoryIds: string}>) {
     const options = {
         method: "GET",

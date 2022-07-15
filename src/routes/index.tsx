@@ -8,6 +8,7 @@ import { CircleListing } from '../screens/CircleListing';
 import { CircleItemListing } from '../screens/CircleItemListing';
 import { ItemDetails } from '../screens/ItemDetails';
 import { CreateItem } from '../screens/CreateItem';
+import { UserItemListing } from '../screens/UserItemListing';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -38,6 +39,10 @@ export function Routes() {
         <Screen
           name="CreateItem"
           component={CreateItem}
+        />
+        <Screen
+          name="UserItemListing"
+          component={UserItemListing}
         />
       </Navigator>
     </NavigationContainer>

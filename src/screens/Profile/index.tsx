@@ -49,6 +49,10 @@ export function Profile() {
     navigation.navigate('SignIn');
   }
 
+  async function handleUserItemListing() {
+    navigation.navigate('UserItemListing', { token });
+  }
+
   async function handleCircleItemListing() {
     navigation.navigate('CircleItemListing', { token, isFeed: true });
   }
@@ -147,7 +151,7 @@ export function Profile() {
         <Button
           title="Meus itens publicados"
           icon="cloud-upload"
-          onPress={handleCircleItemListing}
+          onPress={handleUserItemListing}
         />
 
         <Button
