@@ -180,3 +180,16 @@ export function listItemDetails(token: string, itemId: string) {
   
       return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/item/${itemId}`, options);
 }
+
+export async function replyItemInterest(token: string, itemInterestId: string, answer: string, itemId: string) {
+  const options = {
+      method: "PATCH",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      body: JSON.stringify({ answer, itemId })
+    };
+
+    return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/item-interest/${itemInterestId}/reply`, options);
+}

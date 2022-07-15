@@ -9,6 +9,7 @@ import { CircleItemListing } from '../screens/CircleItemListing';
 import { ItemDetails } from '../screens/ItemDetails';
 import { CreateItem } from '../screens/CreateItem';
 import { UserItemListing } from '../screens/UserItemListing';
+import { ItemInterestedListing } from '../screens/ItemInterestedListing';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -43,6 +44,10 @@ export function Routes() {
         <Screen
           name="UserItemListing"
           component={UserItemListing}
+        />
+        <Screen
+          name="ItemInterestedListing"
+          component={ItemInterestedListing}
         />
       </Navigator>
     </NavigationContainer>

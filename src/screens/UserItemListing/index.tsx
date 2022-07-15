@@ -10,20 +10,22 @@ import { unnacent } from '../../helpers/unnacent';
 import { ItemDetails } from '../ItemDetails';
 import { Button } from '../../components/Button';
 
+export type ItemInterest = {
+  id: string;
+  interested: {
+      id: string;
+      name: string;
+      birthday: string;
+      login: string;
+      createdAt: string;
+      email: string;
+      institutionalEmail: string;
+  },
+  status: string;
+}
+
 type UserItemResponseBodyAPI = ItemDetails & {
-    itemInterests: {
-        id: string;
-        interested: {
-            id: string;
-            name: string;
-            birthday: string;
-            login: string;
-            createdAt: string;
-            email: string;
-            institutionalEmail: string;
-        },
-        status: string;
-    }[]
+    itemInterests: ItemInterest[]
 }
 
 type UserItemResponseAPI = {
@@ -51,8 +53,8 @@ export function UserItemListing() {
 
     const { token } = route.params as Params;
 
-    function handleItemInterested() {  
-      navigation.navigate('ItemDetails', { token });
+    function handleItemInterested(itemInterests: ItemInterest[], itemId: string) {  
+      navigation.navigate('ItemInterestedListing', { token, itemInterests, itemId });
     }
 
     function handleItemDetails(itemId: string) {  
@@ -118,7 +120,7 @@ export function UserItemListing() {
                 <Button
                   title='Visualizar Interessados'
                   icon='envelope'
-                  onPress={handleItemInterested}
+                  onPress={() => handleItemInterested(item.itemInterests, item.id)}
                 /> : <Text style={styles.notInterestedLabel}>Ainda não há interessados</Text> }  
               </View>
               }
