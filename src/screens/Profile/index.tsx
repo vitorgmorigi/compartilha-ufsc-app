@@ -88,7 +88,7 @@ export function Profile() {
       <View style={styles.content}>
         <View style={styles.profile}>
           <Avatar
-            source={{ uri: 'https://github.com/vitorgmorigi.png' }}
+            source={{ uri: 'https://www.seekpng.com/png/detail/402-4022635_avatar-generic-person-icon.png' }}
           />
 
           <Text style={styles.name}>
@@ -120,12 +120,12 @@ export function Profile() {
 
           <View style={styles.info}>
             <Feather
-              name="heart"
+              name="smile"
               size={34}
               color={theme.colors.note}
             />
             <Text style={styles.label}>
-              Aniversário
+              Pontuação
             </Text>
             <Text style={styles.text}>
               { profile.birthday }

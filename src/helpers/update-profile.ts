@@ -11,3 +11,12 @@ export async function updateProfile(token: string) {
     
     await AsyncStorage.setItem('@user_profile', JSON.stringify(profile))
 }
+
+
+export async function getUserProfile() {
+    const userProfile = await AsyncStorage.getItem('@user_profile');
+                  
+    const userProfileJson = userProfile !== null ? JSON.parse(userProfile) : null;
+
+    return userProfileJson;
+}
