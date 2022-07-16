@@ -7,6 +7,7 @@ import { createItemInterest, listItemDetails } from '../../requests';
 import { ItemDetailsImage } from '../../components/ItemDetailsImage';
 import { Button } from '../../components/Button';
 import { showMessage } from 'react-native-flash-message';
+import { getUserProfile } from '../../helpers/update-profile';
 
 export type ItemDetails = {
   id: string;
@@ -55,6 +56,8 @@ export function ItemDetails() {
 
     const { token, itemId } = route.params as Params;
 
+    const [profile, setProfile] = useState(null as any);
+
     async function handleItemInterest() {  
       const response = await createItemInterest(token, itemDetails);
 
@@ -75,6 +78,34 @@ export function ItemDetails() {
       });
     }
 
+    function renderButton() {
+      if (itemDetails?.createdBy?.login === undefined || profile?.login === undefined) return undefined;
+
+      return itemDetails?.createdBy?.login === profile?.login ? 
+            
+            <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
+              <View style={{paddingHorizontal: 5, marginLeft: 80}}>
+                  <Button
+                  title='Editar'
+                  icon='pencil'
+                  // onPress={() => handleReplyItemInterest(interest.id, ItemInterestStatus.ACCEPTED)}
+                  /> 
+              </View>
+              <View style={{paddingHorizontal: 5, marginRight: 80}}>
+                  <Button
+                      title='Deletar'
+                      icon='trash'
+                      // onPress={() => handleReplyItemInterest(interest.id, ItemInterestStatus.REFUSED)}
+                  />
+              </View>
+           </View> :
+            <Button
+              title="Tenho interesse!"
+              icon="basket"
+              onPress={handleItemInterest}
+            />
+    }
+
     async function loadItemDetails() {
       const response = await listItemDetails(token, itemId);
 
@@ -83,7 +114,14 @@ export function ItemDetails() {
       setItemDetails(responseJson.body);
     }
 
+    async function loadProfile() {
+      const profile = await getUserProfile();
+      
+      setProfile(profile);
+    }
+
       useEffect(() => {
+        loadProfile();
         loadItemDetails();
       }, [])
 
@@ -103,15 +141,12 @@ export function ItemDetails() {
                 <Text style={styles.textValue}>{itemDetails?.createdBy?.institutionalEmail}</Text>
                 <Text style={styles.textValue}>{itemDetails?.createdBy?.email}</Text>
                 <Text style={styles.subtitle}>Anunciado em:</Text>
-                <Text style={styles.textValue}>{new Date(itemDetails?.createdAt).toLocaleString()}</Text>
+                <Text style={styles.textValue}>{itemDetails?.createdAt ? new Date(itemDetails?.createdAt).toLocaleString() : undefined}</Text>
                 <Text style={styles.subtitle}>Expira em:</Text>
-                <Text style={styles.textValue}>{new Date(itemDetails?.expirationDate).toLocaleString()}</Text>
+                <Text style={styles.textValue}>{itemDetails?.expirationDate ? new Date(itemDetails?.expirationDate).toLocaleString() : undefined}</Text>
             </ScrollView>
-            <Button
-              title="Tenho interesse!"
-              icon="basket"
-              onPress={handleItemInterest}
-            />
+            { renderButton() }
+
      </View>
     </View>
 }
