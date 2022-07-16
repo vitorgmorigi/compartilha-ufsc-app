@@ -2,14 +2,16 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TextInput } from 'react-native-gesture-handler';
-import { Circle, CircleData } from '../../components/Circle';
+import { Circle } from '../../components/Circle';
 import { theme } from '../../styles/theme';
 import { styles } from './styles';
 import { createHash } from '../../helpers/crypto';
 import { joinInAPrivateCircle, listCircles } from '../../requests';
 import { updateProfile } from '../../helpers/update-profile';
+import { SearchBar } from 'react-native-elements';
+import { unnacent } from '../../helpers/unnacent';
 
 type ResponseAPICircles = {
     id: string;
@@ -28,6 +30,10 @@ export function CircleListing() {
 
     const [circles, setCircles] = useState([] as ResponseAPICircles[])
 
+    const [filteredCircles, setFilteredCircles] = useState(null as ResponseAPICircles[] | null)
+
+    const [searchValue, setSearchValue] = useState('')
+
     const [clickedCircle, setClickedCircle] = useState({} as ResponseAPICircles);
     
     const route = useRoute();
@@ -37,6 +43,15 @@ export function CircleListing() {
     const [typedPassword, setTypedPassword] = useState('');
 
     const { token } = route.params as Params;
+
+    function searchFunction(text: string) {
+      setSearchValue(text);
+
+      const updatedData = circles.filter((circle) => unnacent(circle.name.toLowerCase().trim())
+      .includes(unnacent(text.toLowerCase().trim())));
+      
+      setFilteredCircles(updatedData);
+    };
 
     function handleCircleItemListing(circle: ResponseAPICircles) {
       navigation.navigate('CircleItemListing', { token, circle: { id: circle.id, name: circle.name }, isFeed: false });
@@ -64,32 +79,41 @@ export function CircleListing() {
         loadCircles();
       }, [])
 
-    const circleComponents = circles
-    .map((circle) => 
-    <TouchableOpacity key={circle.id} onPress={async () => {
-      setClickedCircle(circle);
-      
-      if (circle.visibility === 'private') {
-        const userProfile = await AsyncStorage.getItem('@user_profile');
-        
-        const userProfileJson = userProfile !== null ? JSON.parse(userProfile) : null;
-        
-        if (!userProfileJson?.privateCircles.includes(circle.id)) {
-          return setModalVisibility(true)
-        }
-      }
-      
-      return handleCircleItemListing(circle);
-      }}>
-      <Circle key={circle.id} name={circle.name} createdBy={circle.createdBy} visibility={circle.visibility} id={circle.id} password={circle.password}></Circle>
-    </TouchableOpacity>)
-    
    return <View style={styles.container}> 
      <View style={styles.content}>
        <Text style={styles.title}>Círculos</Text>
-            <ScrollView>
-                {circleComponents}
-            </ScrollView>
+            <SearchBar
+              placeholder="Procure o círculo aqui..."
+              round
+              value={searchValue}
+              // @ts-ignore
+              onChangeText={(text) => searchFunction(text)}
+              onClear={() => setFilteredCircles(null)}
+              autoCorrect={false}
+            />
+            <FlatList
+              data={filteredCircles || circles}
+              style={{ marginTop: 35 }}
+              keyExtractor={ circle => String(circle.id)}
+              renderItem={({ item }) => 
+              <TouchableOpacity key={item.id} onPress={async () => {
+                setClickedCircle(item);
+                
+                if (item.visibility === 'private') {
+                  const userProfile = await AsyncStorage.getItem('@user_profile');
+                  
+                  const userProfileJson = userProfile !== null ? JSON.parse(userProfile) : null;
+                  
+                  if (!userProfileJson?.privateCircles.includes(item.id)) {
+                    return setModalVisibility(true)
+                  }
+                }
+                
+                return handleCircleItemListing(item);
+                }}>
+                <Circle key={item.id} name={item.name} createdBy={item.createdBy} visibility={item.visibility} id={item.id} password={item.password}></Circle>
+              </TouchableOpacity>}
+            />
             <Modal style={[StyleSheet.absoluteFill, styles.modal]} visible={modalVisibility} animationType='slide' transparent={true}>
               <View style={styles.modalView}>
                 <TouchableOpacity
