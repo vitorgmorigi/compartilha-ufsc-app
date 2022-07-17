@@ -1,13 +1,15 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 
-import { ScrollView, Text, View } from "react-native";
+import { Modal, ScrollView, StyleSheet, Text, View } from "react-native";
 import { styles } from './styles';
-import { createItemInterest, listItemDetails } from '../../requests';
+import { createItemInterest, deleteItem, listItemDetails } from '../../requests';
 import { ItemDetailsImage } from '../../components/ItemDetailsImage';
 import { Button } from '../../components/Button';
 import { showMessage } from 'react-native-flash-message';
 import { getUserProfile } from '../../helpers/update-profile';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { theme } from '../../styles/theme';
 
 export type ItemDetails = {
   id: string;
@@ -54,6 +56,8 @@ export function ItemDetails() {
 
     const route = useRoute();
 
+    const [modalVisibility, setModalVisibility] = useState(false);
+
     const { token, itemId } = route.params as Params;
 
     const [profile, setProfile] = useState(null as any);
@@ -78,6 +82,27 @@ export function ItemDetails() {
       });
     }
 
+    async function handleDeleteItem() {  
+      const response = await deleteItem(token, itemId);
+      
+      const responseJson = await response.json();
+
+      if (response.ok) {
+        
+        showMessage({
+          message: responseJson.body.message,
+          type: "success",
+        });
+
+        return navigation.navigate('Profile', { token });
+      }
+
+      showMessage({
+        message: responseJson?.body?.message || "Ocorreu um erro ao deletar o item",
+        type: "danger",
+      });
+    }
+
     function renderButton() {
       if (itemDetails?.createdBy?.login === undefined || profile?.login === undefined) return undefined;
 
@@ -95,7 +120,7 @@ export function ItemDetails() {
                   <Button
                       title='Deletar'
                       icon='trash'
-                      // onPress={() => handleReplyItemInterest(interest.id, ItemInterestStatus.REFUSED)}
+                      onPress={() => setModalVisibility(true)}
                   />
               </View>
            </View> :
@@ -146,6 +171,27 @@ export function ItemDetails() {
                 <Text style={styles.textValue}>{itemDetails?.expirationDate ? new Date(itemDetails?.expirationDate).toLocaleString() : undefined}</Text>
             </ScrollView>
             { renderButton() }
+            <Modal style={[StyleSheet.absoluteFill, styles.modal]} visible={modalVisibility} animationType='slide' transparent={true}>
+              <View style={styles.modalView}>
+              <Text style={styles.modalText}>Tem certeza que deseja excluir?</Text> 
+                <View style={{marginLeft: 60, flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
+                      <View style={{paddingHorizontal: 5, marginLeft: 80}}>
+                          <Button
+                          title='Sim'
+                          icon='check'
+                          onPress={() => handleDeleteItem()}
+                          /> 
+                      </View>
+                      <View style={{paddingHorizontal: 5, marginRight: 80}}>
+                          <Button
+                              title='Não'
+                              icon='close'
+                              onPress={() => setModalVisibility(!modalVisibility)}
+                          />
+                      </View>
+                  </View>
+                </View>
+            </Modal>
 
      </View>
     </View>
