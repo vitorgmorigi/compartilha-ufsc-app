@@ -25,6 +25,19 @@ export function getProfile(token: string) {
   return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/login`, options);
 }
 
+export function createCircle(token: string, name: string, visibility: 'public' | 'private', password?: string) {
+  const options: RequestInit = {
+      method: "POST",
+      headers: {
+          Authorization: token,
+          "Content-Type": "application/json;charset=UTF-8",
+      },
+      body: JSON.stringify({ name, visibility, password })
+      };
+
+      return fetch(`https://us-central1-compartilha-ufsc.cloudfunctions.net/api/circle`, options);
+}
+
 export function createItemInterest(token: string, item: ItemDetails) {
   const options: RequestInit = {
       method: "POST",

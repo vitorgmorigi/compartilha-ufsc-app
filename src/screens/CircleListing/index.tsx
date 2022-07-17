@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Feather } from '@expo/vector-icons';
 import { TextInput } from 'react-native-gesture-handler';
 import { Circle } from '../../components/Circle';
 import { theme } from '../../styles/theme';
@@ -12,6 +13,7 @@ import { getProfile, joinInAPrivateCircle, listCircles } from '../../requests';
 import { getUserProfile, updateProfile } from '../../helpers/update-profile';
 import { SearchBar } from 'react-native-elements';
 import { unnacent } from '../../helpers/unnacent';
+import { showMessage } from 'react-native-flash-message';
 
 type ResponseAPICircles = {
     id: string;
@@ -55,6 +57,10 @@ export function CircleListing() {
       setFilteredCircles(updatedData);
     };
 
+    function handleCreateCircle() {
+      navigation.navigate('CreateCircle', { token });
+    }
+
     function handleCircleItemListing(circle: ResponseAPICircles) {
       navigation.navigate('CircleItemListing', { token, circle: { id: circle.id, name: circle.name }, isFeed: false });
     }
@@ -67,6 +73,11 @@ export function CircleListing() {
 
         handleCircleItemListing(circle);
       }
+
+      showMessage({
+        message: 'Senha incorreta!',
+        type: 'warning'
+      })
     }
 
     async function loadCircles() {
@@ -90,7 +101,16 @@ export function CircleListing() {
 
    return <View style={styles.container}> 
      <View style={styles.content}>
+      <View style={{flexDirection: 'row'}}>
        <Text style={styles.title}>Círculos</Text>
+       <TouchableOpacity style={{ flexDirection: 'row', marginLeft: 135 }} onPress={handleCreateCircle}>
+        <Feather
+            name="plus" 
+            color={theme.colors.secondary}
+            size={40}
+        />
+       </TouchableOpacity>
+      </View>
             <SearchBar
               placeholder="Procure o círculo aqui..."
               round
