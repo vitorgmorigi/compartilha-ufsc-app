@@ -14,6 +14,7 @@ import { getUserProfile, updateProfile } from '../../helpers/update-profile';
 import { SearchBar } from 'react-native-elements';
 import { unnacent } from '../../helpers/unnacent';
 import { showMessage } from 'react-native-flash-message';
+import { Loading } from '../../components/Loading';
 
 type ResponseAPICircles = {
     id: string;
@@ -33,6 +34,8 @@ export function CircleListing() {
     const [circles, setCircles] = useState([] as ResponseAPICircles[])
 
     const [filteredCircles, setFilteredCircles] = useState(null as ResponseAPICircles[] | null)
+
+    const [loading, setLoading] = useState(false);
 
     const [searchValue, setSearchValue] = useState('');
 
@@ -81,11 +84,13 @@ export function CircleListing() {
     }
 
     async function loadCircles() {
+      setLoading(true);
       const response = await listCircles(token);
   
       const circles: ResponseAPICircles[] = await response.json();
 
       setCircles(circles);
+      setLoading(false);
     }
 
     async function loadProfile() {
@@ -170,6 +175,7 @@ export function CircleListing() {
                 </TouchableOpacity>
               </View>
             </Modal>
+            <Loading enabled={loading}/>
      </View>
     </View>
 }

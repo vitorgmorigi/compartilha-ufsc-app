@@ -7,6 +7,7 @@ import { listFeed, listItemsInACircle } from '../../requests';
 import { Item } from '../../components/Item';
 import { SearchBar } from 'react-native-elements';
 import { unnacent } from '../../helpers/unnacent';
+import { Loading } from '../../components/Loading';
 
 type ItemResponseAPI = {
   id: string;
@@ -53,6 +54,8 @@ export function CircleItemListing() {
 
     const [searchValue, setSearchValue] = useState('')
 
+    const [loading, setLoading] = useState(false)
+
     const [clickedItem, setClickedItem] = useState({} as ItemResponseAPI);
     
     const route = useRoute();
@@ -73,12 +76,14 @@ export function CircleItemListing() {
     };
 
     async function loadItems() {
+      setLoading(true);
       const response = isFeed ? await listFeed(token) : 
         await listItemsInACircle(token, circle.id);
 
       const responseJson: CircleItemListingAPIResponse = await response.json();
       
       setItems(responseJson.body.items);
+      setLoading(false);
     }
 
       useEffect(() => {
@@ -119,6 +124,7 @@ export function CircleItemListing() {
                 image={item.image}></Item>
               </TouchableOpacity>}
             />
+            <Loading enabled={loading}/>
      </View>
     </View>
 }

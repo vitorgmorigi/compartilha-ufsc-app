@@ -9,6 +9,7 @@ import { SearchBar } from 'react-native-elements';
 import { unnacent } from '../../helpers/unnacent';
 import { ItemDetails } from '../ItemDetails';
 import { Button } from '../../components/Button';
+import { Loading } from '../../components/Loading';
 
 export type ItemInterest = {
   id: string;
@@ -45,6 +46,8 @@ export function UserItemListing() {
 
     const [filteredItems, setFilteredItems] = useState(null as UserItemResponseBodyAPI[] | null)
 
+    const [loading, setLoading] = useState(false);
+
     const [searchValue, setSearchValue] = useState('')
 
     const [clickedItem, setClickedItem] = useState({} as UserItemResponseBodyAPI);
@@ -71,11 +74,15 @@ export function UserItemListing() {
     };
 
     async function loadUserItems() {
+      setLoading(true);
+
       const response = await listUserItems(token);
 
       const responseJson: UserItemResponseAPI = await response.json();
       
       setItems(responseJson.body.items);
+
+      setLoading(false);
     }
 
       useEffect(() => {
@@ -125,6 +132,7 @@ export function UserItemListing() {
               </View>
               }
             />
+            <Loading enabled={loading}/>
      </View>
     </View>
 }

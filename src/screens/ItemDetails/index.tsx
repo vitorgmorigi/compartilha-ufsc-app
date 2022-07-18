@@ -10,6 +10,7 @@ import { showMessage } from 'react-native-flash-message';
 import { getUserProfile } from '../../helpers/update-profile';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { theme } from '../../styles/theme';
+import { Loading } from '../../components/Loading';
 
 export type ItemDetails = {
   id: string;
@@ -57,6 +58,8 @@ export function ItemDetails() {
     const route = useRoute();
 
     const [modalVisibility, setModalVisibility] = useState(false);
+
+    const [loading, setLoading] = useState(false);
 
     const { token, itemId } = route.params as Params;
 
@@ -132,11 +135,15 @@ export function ItemDetails() {
     }
 
     async function loadItemDetails() {
+      setLoading(true);
+
       const response = await listItemDetails(token, itemId);
 
       const responseJson: ItemDetailsResponseAPI = await response.json();
       
       setItemDetails(responseJson.body);
+
+      setLoading(false);
     }
 
     async function loadProfile() {
@@ -192,6 +199,8 @@ export function ItemDetails() {
                   </View>
                 </View>
             </Modal>
+
+            <Loading enabled={loading}/>
 
      </View>
     </View>

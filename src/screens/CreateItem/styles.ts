@@ -93,5 +93,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingBottom: getBottomSpace() + 20,
     paddingHorizontal: 44,
+    margin: 20
   },
 });

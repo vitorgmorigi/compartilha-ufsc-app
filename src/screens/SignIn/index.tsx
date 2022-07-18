@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,6 +9,7 @@ import { SignInContent } from '../../components/SignInContent';
 
 import { styles } from './styles';
 import { getToken } from '../../requests';
+import { Loading } from '../../components/Loading';
 
 type AuthorizationCodeResponse = {
   type: string;
@@ -26,7 +27,10 @@ type TokenResponse = {
 export function SignIn() {
   const navigation = useNavigation();
 
+  const [loading, setLoading] = useState(false);
+
   async function handleSignIn() {
+    setLoading(true);
     const CLIENT_ID = "tccmorigi";
     const REDIRECT_URI = "tccmorigi://tccmorigi.setic_oauth.ufsc.br";
     const RESPONSE_TYPE = "code";
@@ -40,6 +44,8 @@ export function SignIn() {
         const tokenResponse = await getToken(response.params.code);
   
         const tokenResponseJson: TokenResponse = await tokenResponse.json();
+
+        setLoading(false);
 
         navigation.navigate('Profile', { token: tokenResponseJson.response.access_token });
       }
@@ -55,6 +61,7 @@ export function SignIn() {
         icon="rocket"
         onPress={handleSignIn}
       />
+      <Loading enabled={loading}/>
     </View>
   );
 }

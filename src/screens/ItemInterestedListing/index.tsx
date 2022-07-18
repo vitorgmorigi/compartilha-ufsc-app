@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, Text, View } from "react-native";
 
 import { styles } from './styles';
@@ -7,6 +7,7 @@ import { replyItemInterest } from '../../requests';
 import { Button } from '../../components/Button';
 import { ItemInterest } from '../UserItemListing';
 import { showMessage } from 'react-native-flash-message';
+import { Loading } from '../../components/Loading';
 
 enum ItemInterestStatus {
     ACCEPTED = "accepted",
@@ -33,7 +34,11 @@ export function ItemInterestedListing() {
 
     const { token, itemInterests, itemId } = route.params as Params;
 
-    async function handleReplyItemInterest(itemInterestId: string, answer: string) {  
+    const [loading, setLoading] = useState(false);
+
+    async function handleReplyItemInterest(itemInterestId: string, answer: string) {
+      setLoading(true);
+
       const response = await replyItemInterest(token, itemInterestId, answer, itemId);
 
       const responseJson: ReplyItemInterestResponseAPI = await response.json();
@@ -44,6 +49,8 @@ export function ItemInterestedListing() {
             type: "success",
         });
 
+        setLoading(false);
+
         return navigation.navigate('Profile', { token });
       }
 
@@ -51,6 +58,8 @@ export function ItemInterestedListing() {
         message: "Ocorreu um erro ao responder a solicitação de interesse",
         type: "danger",
       });
+
+      setLoading(false);
     }
     
    return <View style={styles.container}> 
@@ -85,6 +94,8 @@ export function ItemInterestedListing() {
               </View>
               }
             />
+
+      <Loading enabled={loading}/>
      </View>
     </View>
 }

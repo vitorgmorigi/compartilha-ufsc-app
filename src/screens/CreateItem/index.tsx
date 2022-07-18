@@ -14,6 +14,7 @@ import { ImageInfo } from 'expo-image-picker/build/ImagePicker.types';
 import { Button } from '../../components/Button';
 import { getFilename } from '../../helpers/filename';
 import { getImageExtensionFile, getImageMimeType } from '../../helpers/mime-types';
+import { Loading } from '../../components/Loading';
 
 type ResponseAPICategories = {
     id: string;
@@ -58,9 +59,11 @@ type Params = {
 export function CreateItem() {
     const navigation = useNavigation();
 
-    const [circles, setCircles] = useState([] as ResponseAPICircles[])
+    const [circles, setCircles] = useState([] as ResponseAPICircles[]);
 
-    const [categories, setCategories] = useState([] as ResponseAPICategories[])
+    const [categories, setCategories] = useState([] as ResponseAPICategories[]);
+
+    const [loading, setLoading] = useState(false);
 
     const [selectedCircle, setSelectedCircle] = useState({} as ResponseAPICircles);
 
@@ -104,6 +107,8 @@ export function CreateItem() {
     };
 
     async function handleCreateItem() {
+      setLoading(true);
+
       const filename = getFilename(image!.uri);
       const extension = getImageExtensionFile(filename);
 
@@ -137,6 +142,8 @@ export function CreateItem() {
           type: "success",
         });
 
+        setLoading(false);
+
         return navigation.navigate('Profile', { token });
       }
 
@@ -144,9 +151,13 @@ export function CreateItem() {
         message: "Houve um erro ao criar o item",
         type: "danger",
       });
+
+      setLoading(false);
     }
 
     async function loadCircles() {
+      setLoading(true);
+
       const response = await listCircles(token);
   
       const circles: ResponseAPICircles[] = await response.json();
@@ -158,6 +169,8 @@ export function CreateItem() {
       const userCircles = circles.filter((circle) => circle.visibility === 'public' || localUserProfile.privateCircles.includes(circle.id));
 
       setCircles(userCircles);
+      
+      setLoading(false);
     }
 
     async function loadCategories() {
@@ -261,6 +274,8 @@ export function CreateItem() {
                   />
                 </View>
             </ScrollView>
+
+            <Loading enabled={loading}/>
      </View>
     </View>
 }

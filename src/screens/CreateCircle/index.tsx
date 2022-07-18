@@ -12,6 +12,7 @@ import { createHash } from '../../helpers/crypto';
 import { createCircle } from '../../requests';
 import { showMessage } from 'react-native-flash-message';
 import { theme } from '../../styles/theme';
+import { Loading } from '../../components/Loading';
 
 type ResponseAPICategories = {
     id: string;
@@ -60,6 +61,8 @@ export function CreateCircle() {
 
     const [name, setName] = useState('');
 
+    const [loading, setLoading] = useState(false);
+
     const [visibility, setVisibility] = useState('' as 'public' | 'private');
 
     const [password, setPassword] = useState('');
@@ -67,6 +70,7 @@ export function CreateCircle() {
     const { token } = route.params as Params;
 
     async function handleCreateCircle() {
+        setLoading(true);
         const response = await createCircle(token, name, visibility, password);
   
         if (response.ok) {
@@ -74,6 +78,8 @@ export function CreateCircle() {
             message: "Círculo criado com sucesso",
             type: "success",
           });
+
+          setLoading(false);
   
           return navigation.navigate('Profile', { token });
         }
@@ -82,6 +88,8 @@ export function CreateCircle() {
           message: "Houve um erro ao criar o círculo",
           type: "danger",
         });
+
+        setLoading(false);
       }
 
    return <View style={styles.container}> 
@@ -129,6 +137,7 @@ export function CreateCircle() {
                   />
                 </View>
             </ScrollView>
+            <Loading enabled={loading}/>
      </View>
     </View>
 }

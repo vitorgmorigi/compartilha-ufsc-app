@@ -11,6 +11,7 @@ import { Button } from '../../components/Button';
 import { styles } from './styles';
 import { theme } from '../../styles/theme';
 import { getProfile } from '../../requests';
+import { Loading } from '../../components/Loading';
 
 type Data = {
   id: string;
@@ -43,6 +44,8 @@ export function Profile() {
   const navigation = useNavigation();
   const route = useRoute();
 
+  const [loading, setLoading] = useState(false);
+
   const { token } = route.params as Params;
 
   async function handleLogout() {
@@ -66,6 +69,8 @@ export function Profile() {
   }
 
   async function loadProfile() {
+    setLoading(true);
+
     const response = await getProfile(token);
     
     const responseJson: ResponseAPISignIn = await response.json();
@@ -75,6 +80,7 @@ export function Profile() {
     await AsyncStorage.setItem('@user_profile', JSON.stringify(profile))
     
     setProfile(profile);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -159,6 +165,8 @@ export function Profile() {
           icon="rocket"
           onPress={handleCreateItem}
         />
+
+        <Loading enabled={loading}/>
       </View>
     </View>
   );
