@@ -52,9 +52,8 @@ export const styles = StyleSheet.create({
     color: theme.colors.text,
     fontSize: 18
   },
-  locale: {
-    justifyContent: 'center',
-    flexDirection: 'row',
+  buttons: {
+    margin: 10
   },
   localeText: {
     fontFamily: theme.fonts.regular,
