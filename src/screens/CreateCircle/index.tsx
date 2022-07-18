@@ -115,10 +115,10 @@ export function CreateCircle() {
                 </View>
                 <Text style={styles.subtitle}>Senha:</Text>  
                 <TextInput
-                  style={styles.modalText}
+                  style={{...styles.modalText, backgroundColor: visibility === 'private' ? 'white' : '#808080'}}
                   secureTextEntry={true}
                   keyboardType="default"
-                  enabled={visibility === 'private'}
+                  editable={visibility === 'private'}
                   onChangeText={password => setPassword(createHash(password))}
                 />  
                 <View style={styles.buttons}>      
