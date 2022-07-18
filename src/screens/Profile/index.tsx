@@ -134,37 +134,42 @@ export function Profile() {
               Pontuação
             </Text>
             <Text style={styles.text}>
-              { profile.birthday }
+              { 0 }
             </Text>
           </View>
         </View>
 
-        <View style={styles.locale}>
+        <View style={styles.buttons}>
+          <Button
+            title="Visualizar Feed"
+            icon="feed"
+            onPress={handleCircleItemListing}
+          />
         </View>
 
-        <Button
-          title="Visualizar Feed"
-          icon="feed"
-          onPress={handleCircleItemListing}
-        />
+        <View style={styles.buttons}>
+          <Button
+            title="Visualizar Círculos"
+            icon="eye"
+            onPress={handleCircleListing}
+          />
+        </View>
 
-        <Button
-          title="Visualizar Círculos"
-          icon="eye"
-          onPress={handleCircleListing}
-        />
+        <View style={styles.buttons}>
+          <Button
+            title="Meus itens publicados"
+            icon="cloud-upload"
+            onPress={handleUserItemListing}
+          />
+        </View>
+        <View style={styles.buttons}>
+          <Button
+            title="Publicar item"
+            icon="rocket"
+            onPress={handleCreateItem}
+          />
+        </View>
 
-        <Button
-          title="Meus itens publicados"
-          icon="cloud-upload"
-          onPress={handleUserItemListing}
-        />
-
-        <Button
-          title="Publicar item"
-          icon="rocket"
-          onPress={handleCreateItem}
-        />
 
         <Loading enabled={loading}/>
       </View>
