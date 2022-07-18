@@ -69,11 +69,9 @@ export function CreateCircle() {
     async function handleCreateCircle() {
         const response = await createCircle(token, name, visibility, password);
   
-        const responseJson = await response.json();
-  
-        if (responseJson.statusCode === 201) {
+        if (response.ok) {
           showMessage({
-            message: responseJson?.body?.message || "Círculo criado com sucesso",
+            message: "Círculo criado com sucesso",
             type: "success",
           });
   
@@ -97,22 +95,24 @@ export function CreateCircle() {
                   onChangeText={name => setName(name)}
                 />
                 <Text style={styles.subtitle}>Visibilidade:</Text>
-                <Text style={styles.subtitle}>Público:</Text>
-                <RadioButton
-                    value='public'
-                    uncheckedColor={theme.colors.secondary}
-                    color={theme.colors.secondary}
-                    status={visibility === 'public' ? 'checked' : 'unchecked'}
-                    onPress={() => setVisibility('public')} 
-                />
-                <Text style={styles.subtitle}>Privado:</Text>  
-                <RadioButton
-                    value='private'
-                    uncheckedColor={theme.colors.secondary}
-                    color={theme.colors.secondary}
-                    status={visibility === 'private' ? 'checked' : 'unchecked'}
-                    onPress={() => setVisibility('private')} 
-                />
+                <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
+                  <Text style={styles.subtitle}>Público:</Text>
+                  <RadioButton
+                      value='public'
+                      uncheckedColor={theme.colors.secondary}
+                      color={theme.colors.secondary}
+                      status={visibility === 'public' ? 'checked' : 'unchecked'}
+                      onPress={() => setVisibility('public')} 
+                  />
+                  <Text style={{...styles.subtitle, marginLeft: 20} }>Privado:</Text>  
+                  <RadioButton
+                      value='private'
+                      uncheckedColor={theme.colors.secondary}
+                      color={theme.colors.secondary}
+                      status={visibility === 'private' ? 'checked' : 'unchecked'}
+                      onPress={() => setVisibility('private')} 
+                  />
+                </View>
                 <Text style={styles.subtitle}>Senha:</Text>  
                 <TextInput
                   style={styles.modalText}
