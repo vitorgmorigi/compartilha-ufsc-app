@@ -65,7 +65,9 @@ export function ItemDetails() {
 
     const [profile, setProfile] = useState(null as any);
 
-    async function handleItemInterest() {  
+    async function handleItemInterest() {
+      setLoading(true);
+      
       const response = await createItemInterest(token, itemDetails);
 
       if (response.ok) {
@@ -75,6 +77,8 @@ export function ItemDetails() {
           message: responseJson.body.message,
           type: "success",
         });
+
+        setLoading(false);
 
         return navigation.navigate('Profile', { token });
       }
