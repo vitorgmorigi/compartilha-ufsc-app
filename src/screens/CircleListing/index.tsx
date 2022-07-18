@@ -68,13 +68,17 @@ export function CircleListing() {
       navigation.navigate('CircleItemListing', { token, circle: { id: circle.id, name: circle.name }, isFeed: false });
     }
 
-    async function handleConfirmPassword(circle: ResponseAPICircles) {  
+    async function handleConfirmPassword(circle: ResponseAPICircles) {
+      setLoading(true);
+      
       const response = await joinInAPrivateCircle(token, circle.id, typedPassword);
 
       if (response.ok) {
         await updateProfile(token);
 
-        handleCircleItemListing(circle);
+        setLoading(false);
+
+        return handleCircleItemListing(circle);
       }
 
       showMessage({

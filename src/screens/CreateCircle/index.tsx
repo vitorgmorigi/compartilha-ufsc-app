@@ -127,7 +127,7 @@ export function CreateCircle() {
                   secureTextEntry={true}
                   keyboardType="default"
                   editable={visibility === 'private'}
-                  onChangeText={password => setPassword(createHash(password))}
+                  onChangeText={password => setPassword(password)}
                 />  
                 <View style={styles.buttons}>      
                   <Button
