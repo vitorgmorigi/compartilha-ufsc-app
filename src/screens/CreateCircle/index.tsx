@@ -3,30 +3,14 @@ import React, { useState } from 'react';
 
 import { ScrollView, Text, View } from "react-native";
 import { TextInput } from 'react-native-gesture-handler';
-import { Picker } from '@react-native-picker/picker';
 import { RadioButton } from 'react-native-paper';
 
 import { styles } from './styles';
 import { Button } from '../../components/Button';
-import { createHash } from '../../helpers/crypto';
 import { createCircle } from '../../requests';
 import { showMessage } from 'react-native-flash-message';
 import { theme } from '../../styles/theme';
 import { Loading } from '../../components/Loading';
-
-type ResponseAPICategories = {
-    id: string;
-    createdBy: string;
-    name: string;
-}
-
-type ResponseAPICircles = {
-    id: string;
-    createdBy: string;
-    name: string;
-    visibility: string;
-    password: string;
-}
 
 export type PayloadCreateItemAPI = {
   name: string;

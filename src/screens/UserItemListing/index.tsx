@@ -1,9 +1,9 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 import { styles } from './styles';
-import { listFeed, listItemsInACircle, listUserItems } from '../../requests';
+import { listUserItems } from '../../requests';
 import { Item } from '../../components/Item';
 import { SearchBar } from 'react-native-elements';
 import { unnacent } from '../../helpers/unnacent';

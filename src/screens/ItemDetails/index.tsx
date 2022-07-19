@@ -8,8 +8,6 @@ import { ItemDetailsImage } from '../../components/ItemDetailsImage';
 import { Button } from '../../components/Button';
 import { showMessage } from 'react-native-flash-message';
 import { getUserProfile } from '../../helpers/update-profile';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { theme } from '../../styles/theme';
 import { Loading } from '../../components/Loading';
 
 export type ItemDetails = {
