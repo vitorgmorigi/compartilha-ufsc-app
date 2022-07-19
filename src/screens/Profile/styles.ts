@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   name: {
     fontFamily: theme.fonts.bold,
     color: theme.colors.text,
-    fontSize: 32,
+    fontSize: 20,
     marginTop: 7
   },
   email: {
@@ -53,7 +53,12 @@ export const styles = StyleSheet.create({
     fontSize: 18
   },
   buttons: {
-    margin: 10
+    flex: 1, 
+    width: 250,
+    // maxHeight: 10,
+    justifyContent: 'center',
+    marginLeft: 25,
+    marginBottom: 75
   },
   localeText: {
     fontFamily: theme.fonts.regular,
@@ -62,6 +67,7 @@ export const styles = StyleSheet.create({
     fontSize: 14,
   },
   info: {
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 35
   },
 });
