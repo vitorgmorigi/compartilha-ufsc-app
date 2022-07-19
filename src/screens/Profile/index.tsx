@@ -22,6 +22,7 @@ type Data = {
   login: string;
   name: string;
   privateCircles: string[];
+  score: number;
 }
 
 type Body = {
@@ -134,7 +135,7 @@ export function Profile() {
               Pontuação
             </Text>
             <Text style={styles.text}>
-              { 0 }
+              { profile.score }
             </Text>
           </View>
         </View>
