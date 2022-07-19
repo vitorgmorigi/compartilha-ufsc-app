@@ -114,23 +114,11 @@ export function ItemDetails() {
       if (itemDetails?.createdBy?.login === undefined || profile?.login === undefined) return undefined;
 
       return itemDetails?.createdBy?.login === profile?.login ? 
-            
-            <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}}>
-              <View style={{paddingHorizontal: 5, marginLeft: 80}}>
-                  <Button
-                  title='Editar'
-                  icon='pencil'
-                  // onPress={() => handleReplyItemInterest(interest.id, ItemInterestStatus.ACCEPTED)}
-                  /> 
-              </View>
-              <View style={{paddingHorizontal: 5, marginRight: 80}}>
-                  <Button
-                      title='Deletar'
-                      icon='trash'
-                      onPress={() => setModalVisibility(true)}
-                  />
-              </View>
-           </View> :
+            <Button
+                title='Deletar item'
+                icon='trash'
+                onPress={() => setModalVisibility(true)}
+            /> :
             <Button
               title="Tenho interesse!"
               icon="basket"
@@ -182,6 +170,7 @@ export function ItemDetails() {
                 <Text style={styles.textValue}>{itemDetails?.expirationDate ? new Date(itemDetails?.expirationDate).toLocaleString() : undefined}</Text>
             </ScrollView>
             { renderButton() }
+
             <Modal style={[StyleSheet.absoluteFill, styles.modal]} visible={modalVisibility} animationType='slide' transparent={true}>
               <View style={styles.modalView}>
               <Text style={styles.modalText}>Tem certeza que deseja excluir?</Text> 
