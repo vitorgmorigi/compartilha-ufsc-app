@@ -22,5 +22,12 @@ export const styles = StyleSheet.create({
     color: theme.colors.text,
     fontSize: 32,
     paddingBottom: 20
-  }
+  },
+  subtitle: {
+    marginTop: 35,
+    fontFamily: theme.fonts.bold,
+    color: theme.colors.text,
+    fontSize: 20,
+    paddingBottom: 10
+  },
 });

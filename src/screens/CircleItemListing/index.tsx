@@ -54,6 +54,8 @@ export function CircleItemListing() {
 
     const [searchValue, setSearchValue] = useState('')
 
+    const [emptyCircleLabel, setEmptyCircleLabel] = useState(undefined as string | undefined);
+
     const [loading, setLoading] = useState(false)
 
     const [clickedItem, setClickedItem] = useState({} as ItemResponseAPI);
@@ -84,6 +86,11 @@ export function CircleItemListing() {
       
       setItems(responseJson.body.items);
       setLoading(false);
+      if (responseJson?.body?.items?.length === 0) {
+        setEmptyCircleLabel(isFeed ? 
+          'Ainda não há item publicado no feed' :
+          'Ainda não há item publicado neste círculo');
+      }
     }
 
       useEffect(() => {
@@ -102,7 +109,7 @@ export function CircleItemListing() {
               onClear={() => setFilteredItems(null)}
               autoCorrect={false}
             />
-
+            { emptyCircleLabel ? <Text style={styles.subtitle}>{emptyCircleLabel}</Text> : undefined }
             <FlatList
               style={{ marginTop: 35 }}
               data={filteredItems || items}
