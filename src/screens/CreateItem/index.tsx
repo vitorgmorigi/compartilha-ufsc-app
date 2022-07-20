@@ -77,7 +77,7 @@ export function CreateItem() {
 
     const [image, setImage] = useState(null as ImageInfo | null);
 
-    const [imageLabel, setImageLabel] = useState('Anexe a imagem');
+    const [imageLabel, setImageLabel] = useState('Anexar imagem');
     
     const route = useRoute();
 
@@ -106,7 +106,23 @@ export function CreateItem() {
       }
     };
 
+    function allFieldsAreDefined() {
+      return name !== '' &&
+       description !== '' && 
+       Object.keys(selectedCategory).length > 0 && 
+       Object.keys(selectedCircle).length && 
+       localization !== '' && 
+       image !== null;
+    }
+
     async function handleCreateItem() {
+      if(!allFieldsAreDefined()) {
+        return showMessage({
+          type: 'warning',
+          message: 'Preencha todos os campos obrigatórios! (*)'
+        });
+      }
+
       setLoading(true);
 
       const filename = getFilename(image!.uri);
@@ -190,13 +206,13 @@ export function CreateItem() {
      <View style={styles.content}>
        <Text style={styles.title}>Criar item</Text>
             <ScrollView>
-                <Text style={styles.subtitle}>Nome:</Text>
+                <Text style={styles.subtitle}>Nome do item*:</Text>
                 <TextInput
                   style={styles.modalText}
                   keyboardType="default"
                   onChangeText={name => setName(name)}
                 />  
-                <Text style={styles.subtitle}>Descrição:</Text>
+                <Text style={styles.subtitle}>Descrição*:</Text>
                 <TextInput
                   style={styles.description}
                   keyboardType="default"
@@ -204,7 +220,7 @@ export function CreateItem() {
                   multiline={true}
                   textAlignVertical='top'
                 />  
-                <Text style={styles.subtitle}>Categoria:</Text>
+                <Text style={styles.subtitle}>Categoria*:</Text>
                 <View style={styles.modalText}>
                   <Picker
                     selectedValue={selectedCategory}
@@ -214,7 +230,7 @@ export function CreateItem() {
                     {categories.map((category) => <Picker.Item key={category.id} label={category.name} value={JSON.stringify(category)}/>)}
                   </Picker>
                 </View>
-                <Text style={styles.subtitle}>Círculo:</Text>
+                <Text style={styles.subtitle}>Círculo*:</Text>
                 <View style={styles.modalText}>
                   <Picker
                     selectedValue={selectedCircle}
@@ -224,7 +240,7 @@ export function CreateItem() {
                     {circles.map((circle) => <Picker.Item key={circle.id} label={circle.name} value={JSON.stringify(circle)}/>)}
                   </Picker>
                 </View>
-                <Text style={styles.subtitle}>Estado de conservação:</Text>
+                <Text style={styles.subtitle}>Estado de conservação*:</Text>
                 <View style={styles.modalText}>
                   <Picker
                     selectedValue={conservationState}
@@ -237,14 +253,14 @@ export function CreateItem() {
                     <Picker.Item label="Em condições razoáveis" value="Em condições razoáveis"/>
                   </Picker>
                 </View>
-                <Text style={styles.subtitle}>Localização:</Text>
+                <Text style={styles.subtitle}>Localização*:</Text>
                 <TextInput
                   style={styles.modalText}
                   placeholder="Sala, laboratório..."
                   keyboardType="default"
                   onChangeText={localization => setLocalization(localization)}
                 />  
-                <Text style={styles.subtitle}>Data de Expiração:</Text>
+                <Text style={styles.subtitle}>Data de Expiração*:</Text>
                 <View style={styles.modalText}>
                   <Picker
                     selectedValue={expirationDate}
@@ -259,7 +275,7 @@ export function CreateItem() {
                     <Picker.Item label="1 ano" value={new Date(today.getFullYear()+1, today.getMonth(), today.getDate()).toISOString()} />
                   </Picker>
                 </View>
-                <Text style={styles.subtitle}>Imagem (png ou jpg):</Text>
+                <Text style={styles.subtitle}>Imagem (png ou jpg)*:</Text>
                 <Button
                   title={imageLabel}
                   icon='picture'
