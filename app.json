@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "compartilha-ufsc-app",
+    "name": "Compartilha UFSC",
     "slug": "tccmorigi",
     "scheme": "tccmorigi",
-    "version": "1.0.0",
+    "version": "1.0.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
